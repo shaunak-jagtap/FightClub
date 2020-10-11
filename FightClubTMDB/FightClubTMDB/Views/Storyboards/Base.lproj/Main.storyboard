@@ -18,6 +18,7 @@
                             <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search movie.." translatesAutoresizingMaskIntoConstraints="NO" id="xBb-Fv-nXL">
                                 <rect key="frame" x="0.0" y="44" width="414" height="56"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="barTintColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>

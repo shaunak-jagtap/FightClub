@@ -37,24 +37,55 @@ class MovieViewController: UIViewController {
         movieTableview.register(nib, forCellReuseIdentifier: "MovieTableViewCell")
     }
 
-    private func cosmeticUI()  {
-     let darkBlueColor = UIColor.init(red: 45/255, green:50/255, blue: 69/255, alpha: 1)
-     let gradient = CAGradientLayer()
-     gradient.frame = view.bounds
-     gradient.startPoint = CGPoint.init(x: 0, y: 0)
-     gradient.endPoint = CGPoint.init(x: 1, y: 1)
-        gradient.colors = [darkBlueColor.cgColor, UIColor.darkGray.cgColor]
-     self.view.layer.insertSublayer(gradient, at: 0)
+    private func cosmeticUI() {
+        let gradient = CAGradientLayer()
+        gradient.frame = view.bounds
+        movieSearchBar.searchTextField.textColor = .white
+        gradient.startPoint = CGPoint.init(x: 0, y: 0)
+        gradient.endPoint = CGPoint.init(x: 1, y: 1)
+        gradient.colors = [Constants.appColors.darkBlueColor.cgColor, UIColor.darkGray.cgColor]
+        self.view.layer.insertSublayer(gradient, at: 0)
     }
 
     private func fetchMovies(query: String? = nil) {
         isLoading = true
-        MovieManager.fetchMovies(searchTerm: query ?? "", success: { result in
-            if let movies = result as? [Movie], movies.count > 0 {
-                self.movies = movies
-                self.movieTableview.reloadData()
+        MovieManager.fetchMovies(searchTerm: query ?? "", page: page, success: { [weak self] result in
+            if let topLevelobject = result as? TopLevelobject, topLevelobject.results.count > 0 {
+                self?.isLoading = false
+                if self?.page ?? 0 > 1 {
+                    if self?.movies.count ?? 0 > 0 {
+                        self?.movies.append(contentsOf: topLevelobject.results)
+                        self?.movieTableview.reloadData()
+                        self?.hidePaginationIndicator()
+                    } else {
+                        self?.hasLoaded = true
+                    }
+                } else {
+                    self?.movies = topLevelobject.results
+                    self?.movieTableview.reloadData()
+                    self?.hidePaginationIndicator()
+                }
+
+                if self?.movies.count == topLevelobject.total_results {
+                    self?.hasLoaded = true
+                } else {
+                    self?.hasLoaded = false
+                }
+
+                if self?.movies.count == 0 && !(self?.isLoading ?? false) {
+                    if let searchTextCount = self?.movieSearchBar.text?.count {
+                        if searchTextCount > 0 {
+                            //no search results
+                        } else {
+                            //empty state
+                        }
+                    }
+                } else {
+                    //hide empty view
+                }
             }
-        }, failure:  { errorString in
+
+            }, failure:  { errorString in
 
         })
     }
@@ -76,12 +107,28 @@ class MovieViewController: UIViewController {
         movies.removeAll()
         movieTableview.reloadData()
         hidePaginationIndicator()
-        fetchMovies(query: self.movieSearchBar.text)
+        fetchMovies(query: getSearchText())
     }
 
     private func hidePaginationIndicator() {
         movieTableview.tableFooterView = nil
         movieTableview.tableFooterView?.isHidden = true
+    }
+
+    private func showPaginationIndicator(indexPath: IndexPath) {
+        let lastRowIndex = movieTableview.numberOfRows(inSection: 0) - 1
+        if indexPath.section ==  0, lastRowIndex != 0, indexPath.row == lastRowIndex {
+            let spinner = UIActivityIndicatorView(style: .medium)
+            spinner.startAnimating()
+            spinner.frame = CGRect(x: 0, y: 0, width: movieTableview.bounds.width, height: minimalSectionHeaderHeight)
+
+            movieTableview.tableFooterView = spinner
+            movieTableview.tableFooterView?.isHidden = false
+        }
+    }
+
+    private func getSearchText() -> String? {
+        return self.movieSearchBar.text != "" ? self.movieSearchBar.text : nil
     }
 }
 
@@ -124,5 +171,17 @@ extension MovieViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         print("did tap for connection. trying to connect")
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if movies.isEmpty {
+            return
+        }
+
+        // Call pagination API when the user is at the 4 row from last for smooth scrolling
+        if !hasLoaded, !isLoading, indexPath.row == movies.count - paginateAt {
+            page += 1
+            fetchMovies(query: getSearchText())
+        }
     }
 }

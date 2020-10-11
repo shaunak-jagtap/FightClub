@@ -12,7 +12,7 @@ class NetworkManger {
 
     static let sharedInstance = NetworkManger()
 
-    func getData(params:[String:Any], url:URL, success:@escaping([Any]) -> Void, failure:@escaping(String) -> Void)
+    func getData(url:URL, success:@escaping(TopLevelobject) -> Void, failure:@escaping(String) -> Void)
     {
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
             if let smResponse = response as? HTTPURLResponse, (200...299).contains(smResponse.statusCode)
@@ -22,7 +22,7 @@ class NetworkManger {
                     {
                         let topLevelObject = try JSONDecoder().decode(TopLevelobject.self, from: data)
                             DispatchQueue.main.async {
-                                success(topLevelObject.results)
+                                success(topLevelObject)
                             }
                     }
                     else
