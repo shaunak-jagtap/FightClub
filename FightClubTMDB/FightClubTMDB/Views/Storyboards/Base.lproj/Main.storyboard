@@ -15,27 +15,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="sXc-yz-ydt">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="sXc-yz-ydt">
+                                <rect key="frame" x="10" y="44" width="394" height="818"/>
                                 <subviews>
                                     <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search movie.." translatesAutoresizingMaskIntoConstraints="NO" id="xBb-Fv-nXL">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="394" height="56"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="barTintColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </searchBar>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recent Searches" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XOC-yv-DdQ">
-                                        <rect key="frame" x="0.0" y="56" width="414" height="45"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="45" id="Nmr-zF-FaO"/>
-                                        </constraints>
+                                        <rect key="frame" x="0.0" y="66" width="394" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="190" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZKd-u2-Y9E">
-                                        <rect key="frame" x="0.0" y="101" width="414" height="717"/>
+                                        <rect key="frame" x="0.0" y="96.5" width="394" height="721.5"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
@@ -46,8 +43,6 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="XOC-yv-DdQ" secondAttribute="trailing" id="L3e-6z-I2y"/>
-                                    <constraint firstItem="XOC-yv-DdQ" firstAttribute="top" secondItem="xBb-Fv-nXL" secondAttribute="bottom" id="O95-ro-t18"/>
-                                    <constraint firstItem="ZKd-u2-Y9E" firstAttribute="top" secondItem="XOC-yv-DdQ" secondAttribute="bottom" id="ggy-7o-dV4"/>
                                     <constraint firstItem="XOC-yv-DdQ" firstAttribute="leading" secondItem="sXc-yz-ydt" secondAttribute="leading" id="hhw-xY-rDt"/>
                                 </constraints>
                             </stackView>
@@ -55,9 +50,9 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="9Kj-LE-i8S" firstAttribute="bottom" secondItem="sXc-yz-ydt" secondAttribute="bottom" id="KrA-ya-MkB"/>
-                            <constraint firstItem="9Kj-LE-i8S" firstAttribute="trailing" secondItem="sXc-yz-ydt" secondAttribute="trailing" id="Y4J-E1-Ubn"/>
+                            <constraint firstItem="9Kj-LE-i8S" firstAttribute="trailing" secondItem="sXc-yz-ydt" secondAttribute="trailing" constant="10" id="Y4J-E1-Ubn"/>
                             <constraint firstItem="sXc-yz-ydt" firstAttribute="top" secondItem="9Kj-LE-i8S" secondAttribute="top" id="cOt-Kp-hHC"/>
-                            <constraint firstItem="sXc-yz-ydt" firstAttribute="leading" secondItem="qpA-CC-iqq" secondAttribute="leading" id="iCg-rd-GB5"/>
+                            <constraint firstItem="sXc-yz-ydt" firstAttribute="leading" secondItem="qpA-CC-iqq" secondAttribute="leading" constant="10" id="iCg-rd-GB5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9Kj-LE-i8S"/>
                     </view>

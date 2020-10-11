@@ -114,7 +114,7 @@ class MovieViewController: UIViewController {
                 }
 
                 var savedMovies = MovieManager.recentSearches.first?.value
-                if savedMovies?.count ?? 0 < 5 {
+                if savedMovies?.count ?? 0 < 5, moviesToSave.count > index {
                     savedMovies?.append(moviesToSave[index])
                     if let updatedMovies = savedMovies {
                         MovieManager.recentSearches[query] = updatedMovies
