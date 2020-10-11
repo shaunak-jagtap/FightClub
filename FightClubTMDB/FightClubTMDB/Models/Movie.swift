@@ -9,7 +9,6 @@
 import Foundation
 
 // MARK: - Result
-
 struct TopLevelobject: Codable {
     let total_results: Int?
     let results: [Movie]

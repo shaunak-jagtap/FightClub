@@ -13,6 +13,7 @@ class MovieManager {
     static let shared = MovieManager()
     private init() {}
 
+    static var recentSearches = [String:[Movie]]()
 
     static func fetchMovies(searchTerm: String, page: Int, success:@escaping(Any) -> Void, failure:@escaping(String) -> Void) {
         guard let baseURL = URL(string: Constants.strings.baseURL) else { return failure(Constants.errors.networkError) }

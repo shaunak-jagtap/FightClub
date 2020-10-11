@@ -20,18 +20,19 @@ class MovieViewController: UIViewController {
     private var isLoading = false
     private var hasLoaded = false
 
+    @IBOutlet weak var recentSearchesLabel: UILabel!
     @IBOutlet weak var movieSearchBar: UISearchBar!
     @IBOutlet weak var movieTableview: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-
         fetchMovies(query: "")
     }
 
     private func setupUI() {
         movieSearchBar.delegate = self
+        recentSearchesLabel.isHidden = true
         cosmeticUI()
         let nib = UINib(nibName: "MovieTableViewCell", bundle: nil)
         movieTableview.register(nib, forCellReuseIdentifier: "MovieTableViewCell")
@@ -50,17 +51,20 @@ class MovieViewController: UIViewController {
     private func fetchMovies(query: String? = nil) {
         isLoading = true
         MovieManager.fetchMovies(searchTerm: query ?? "", page: page, success: { [weak self] result in
+            self?.recentSearchesLabel.isHidden = true
             if let topLevelobject = result as? TopLevelobject, topLevelobject.results.count > 0 {
                 self?.isLoading = false
                 if self?.page ?? 0 > 1 {
                     if self?.movies.count ?? 0 > 0 {
                         self?.movies.append(contentsOf: topLevelobject.results)
+                        self?.saveToRecentSearches(query: query ?? "", moviesToSave: topLevelobject.results)
                         self?.movieTableview.reloadData()
                         self?.hidePaginationIndicator()
                     } else {
                         self?.hasLoaded = true
                     }
                 } else {
+                    self?.saveToRecentSearches(query: query ?? "", moviesToSave: topLevelobject.results)
                     self?.movies = topLevelobject.results
                     self?.movieTableview.reloadData()
                     self?.hidePaginationIndicator()
@@ -75,9 +79,9 @@ class MovieViewController: UIViewController {
                 if self?.movies.count == 0 && !(self?.isLoading ?? false) {
                     if let searchTextCount = self?.movieSearchBar.text?.count {
                         if searchTextCount > 0 {
-                            //no search results
+                            self?.showRecentSearchResult()
                         } else {
-                            //empty state
+                            self?.showRecentSearchResult()
                         }
                     }
                 } else {
@@ -85,9 +89,42 @@ class MovieViewController: UIViewController {
                 }
             }
 
-            }, failure:  { errorString in
-
+            }, failure:  { [weak self] errorString in
+                self?.showRecentSearchResult()
         })
+    }
+
+    private func showRecentSearchResult() {
+        if !MovieManager.recentSearches.isEmpty {
+            self.recentSearchesLabel.isHidden = false
+            self.recentSearchesLabel.text = "Recent search results for: \(MovieManager.recentSearches.first?.key ?? "")"
+            if let savedMovies = MovieManager.recentSearches.first?.value {
+                self.movies = savedMovies
+                self.movieTableview.reloadData()
+            }
+        }
+    }
+
+    private func saveToRecentSearches(query: String, moviesToSave: [Movie]) {
+        for index in 0...4 {
+            if MovieManager.recentSearches[query]?.count ?? 0 > 0 {
+
+                if MovieManager.recentSearches.first?.key != query {
+                    MovieManager.recentSearches.removeAll()
+                }
+
+                var savedMovies = MovieManager.recentSearches.first?.value
+                if savedMovies?.count ?? 0 < 5 {
+                    savedMovies?.append(moviesToSave[index])
+                    if let updatedMovies = savedMovies {
+                        MovieManager.recentSearches[query] = updatedMovies
+                    }
+                }
+            } else {
+                MovieManager.recentSearches[query] = [moviesToSave[0]]
+            }
+        }
+
     }
 
     private func fillCellData(cell: MovieTableViewCell, indexPath :IndexPath) {
