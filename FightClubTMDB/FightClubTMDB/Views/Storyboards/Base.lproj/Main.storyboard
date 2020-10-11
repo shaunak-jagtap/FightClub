@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QhR-W7-S6P">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ird-Tq-d0O">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -8,19 +8,39 @@
     </dependencies>
     <scenes>
         <!--Movie View Controller-->
-        <scene sceneID="eTq-PF-P3M">
+        <scene sceneID="9iO-e1-BAK">
             <objects>
-                <viewController id="QhR-W7-S6P" customClass="MovieViewController" customModule="FightClubTMDB" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ZZ1-xO-dza">
+                <viewController id="ird-Tq-d0O" customClass="MovieViewController" customModule="FightClubTMDB" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qpA-CC-iqq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="190" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZKd-u2-Y9E">
+                                <rect key="frame" x="20" y="64" width="374" height="778"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="ird-Tq-d0O" id="Xhd-iQ-AM7"/>
+                                    <outlet property="delegate" destination="ird-Tq-d0O" id="CwU-FK-5oo"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="Arn-Lp-TH2"/>
+                        <constraints>
+                            <constraint firstItem="9Kj-LE-i8S" firstAttribute="bottom" secondItem="ZKd-u2-Y9E" secondAttribute="bottom" constant="20" id="Qje-T7-iBU"/>
+                            <constraint firstItem="ZKd-u2-Y9E" firstAttribute="leading" secondItem="9Kj-LE-i8S" secondAttribute="leading" constant="20" id="YXH-oK-lBS"/>
+                            <constraint firstItem="ZKd-u2-Y9E" firstAttribute="top" secondItem="9Kj-LE-i8S" secondAttribute="top" constant="20" id="fK9-lU-4iV"/>
+                            <constraint firstItem="9Kj-LE-i8S" firstAttribute="trailing" secondItem="ZKd-u2-Y9E" secondAttribute="trailing" constant="20" id="kb6-o8-gAG"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="9Kj-LE-i8S"/>
                     </view>
+                    <connections>
+                        <outlet property="movieTableview" destination="ZKd-u2-Y9E" id="BTA-GA-TIa"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="isj-om-kb3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pln-CX-7Em" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-61" y="-27"/>
+            <point key="canvasLocation" x="-3120.289855072464" y="73.660714285714278"/>
         </scene>
     </scenes>
 </document>

@@ -25,7 +25,6 @@ class MovieManager {
         ]
 
         guard let finalURL = urlComponents?.url else { return failure(Constants.errors.networkError) }
-        print(finalURL)
 
         NetworkManger.sharedInstance.getData(params:[:], url: finalURL, success: success, failure: failure)
 

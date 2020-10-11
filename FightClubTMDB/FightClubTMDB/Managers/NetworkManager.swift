@@ -12,7 +12,7 @@ class NetworkManger {
 
     static let sharedInstance = NetworkManger()
 
-    func getData(params:[String:Any], url:URL, success:@escaping(Any) -> Void, failure:@escaping(String) -> Void)
+    func getData(params:[String:Any], url:URL, success:@escaping([Any]) -> Void, failure:@escaping(String) -> Void)
     {
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
             if let smResponse = response as? HTTPURLResponse, (200...299).contains(smResponse.statusCode)
@@ -20,11 +20,10 @@ class NetworkManger {
                 do {
                     if let data = data
                     {
-                        if let json = try JSONSerialization.jsonObject(with: data) as? [String:Any] {
+                        let topLevelObject = try JSONDecoder().decode(TopLevelobject.self, from: data)
                             DispatchQueue.main.async {
-                                success(json)
+                                success(topLevelObject.results)
                             }
-                        }
                     }
                     else
                     {
@@ -32,10 +31,19 @@ class NetworkManger {
                             failure(Constants.errors.networkError);
                         }
                     }
+                } catch let DecodingError.dataCorrupted(context) {
+                    print(context)
+                } catch let DecodingError.keyNotFound(key, context) {
+                    print("Key '\(key)' not found:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                } catch let DecodingError.valueNotFound(value, context) {
+                    print("Value '\(value)' not found:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                } catch let DecodingError.typeMismatch(type, context)  {
+                    print("Type '\(type)' mismatch:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
                 } catch {
-                    DispatchQueue.main.async {
-                        failure(Constants.errors.networkError);
-                    }
+                    print("error: ", error)
                 }
             }
             else

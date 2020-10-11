@@ -9,38 +9,36 @@
 import Foundation
 
 // MARK: - Result
+
+struct TopLevelobject: Codable {
+    let total_results: Int?
+    let results: [Movie]
+    let page: Int?
+    let total_pages: Int?
+}
+
 struct Movie: Codable,Identifiable {
     let popularity: Double
-    let voteCount: Int
+    let vote_count: Int
     let video: Bool
-    let posterPath: String?
+    let poster_path: String?
     let id: Int
     let adult: Bool
     let backdropPath: String?
-    let originalTitle: String
-    let genreIds: [Int]
+    let original_title: String
+    let genre_ids: [Int]
     let title: String
-    let voteAverage: Double
+    let vote_average: Double
     let overview : String
-    let releaseDate: Date
+    let release_date: String
 
-    public var posterURL: URL? {
-        guard let poster = posterPath else {return nil}
-        return URL(string: Constants.strings.posterEndPoint + poster)
+    public var posterURL: String {
+        guard let poster = poster_path else {return ""}
+        return  Constants.strings.posterEndPoint + poster
     }
 
     public var backdropURL: URL? {
         guard let path = backdropPath else {return nil}
         return URL(string: Constants.strings.posterEndPoint + path)
-    }
-
-    static private let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd MMM yyyy"
-        return formatter
-    }()
-
-    public var cleanMovieReleaseDate: String {
-        return Movie.dateFormatter.string(from: self.releaseDate)
     }
 }

@@ -6,7 +6,7 @@
 //  Copyright © 2020 shaunak. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 // FightClubTMDB custom error
 public enum FightClubTMDBMovieError: Error {
@@ -24,6 +24,10 @@ struct Constants
         static let cellHeight = 150.0
     }
 
+    struct colors {
+        let darkBlueColor = UIColor.init(red: 45/255, green:50/255, blue: 69/255, alpha: 1)
+    }
+
     //String constants
     struct strings
     {
@@ -39,6 +43,7 @@ struct Constants
     struct errors
     {
         static let networkError = "something went wrong"
+        static let errorLoadingImage = "Failed loading image"
     }
 
 }
