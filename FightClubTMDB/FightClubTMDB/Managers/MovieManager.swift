@@ -30,4 +30,20 @@ class MovieManager {
         NetworkManger.sharedInstance.getData(url: finalURL, success: success, failure: failure)
 
     }
+
+
+    static func fetchSimilarMovies(movieID: String, page: Int, success:@escaping(Any) -> Void, failure:@escaping(String) -> Void) {
+        guard let baseURL = URL(string: Constants.strings.baseURL) else { return failure(Constants.errors.networkError) }
+        let searchURL = baseURL.appendingPathComponent("movie/\(movieID)/similar")
+        var urlComponents = URLComponents(url: searchURL, resolvingAgainstBaseURL: true)
+        urlComponents?.queryItems = [
+            URLQueryItem(name: Constants.strings.apiKey, value: Constants.strings.apiValue),
+            URLQueryItem(name: Constants.strings.page, value: "\(page)"),
+            URLQueryItem(name: Constants.strings.movieID, value: movieID),
+            URLQueryItem(name: Constants.strings.language, value: "en")
+        ]
+        guard let finalURL = urlComponents?.url else { return failure(Constants.errors.networkError) }
+
+        NetworkManger.sharedInstance.getData(url: finalURL, success: success, failure: failure)
+    }
 }

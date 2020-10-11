@@ -37,6 +37,8 @@ struct Constants
         static let apiKey = "api_key"
         static let searchKey = "query"
         static let page = "page"
+        static let movieID = "movie_id"
+        static let language = "language"
         static let posterEndPoint = "https://image.tmdb.org/t/p/w500"
     }
 

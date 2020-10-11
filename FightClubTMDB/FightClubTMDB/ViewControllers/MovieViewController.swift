@@ -13,6 +13,7 @@ class MovieViewController: UIViewController {
     // MARK: - Properties
     var movies: [Movie] = []
     let imageLoader = ImageLoader()
+    var setForSimilars = false
     private let paginateAt = 1
     private var page = 1
     private var pageLength = 5
@@ -50,49 +51,54 @@ class MovieViewController: UIViewController {
     }
 
     private func fetchMovies(query: String? = nil) {
-        isLoading = true
-        MovieManager.fetchMovies(searchTerm: query ?? "", page: page, success: { [weak self] result in
-            self?.recentSearchesLabel.isHidden = true
-            if let topLevelobject = result as? TopLevelobject, topLevelobject.results.count > 0 {
-                self?.isLoading = false
-                if self?.page ?? 0 > 1 {
-                    if self?.movies.count ?? 0 > 0 {
-                        self?.movies.append(contentsOf: topLevelobject.results)
+        if setForSimilars {
+            movieSearchBar.isHidden = true
+            recentSearchesLabel.isHidden = true
+        } else {
+            isLoading = true
+            MovieManager.fetchMovies(searchTerm: query ?? "", page: page, success: { [weak self] result in
+                self?.recentSearchesLabel.isHidden = true
+                if let topLevelobject = result as? TopLevelobject, topLevelobject.results.count > 0 {
+                    self?.isLoading = false
+                    if self?.page ?? 0 > 1 {
+                        if self?.movies.count ?? 0 > 0 {
+                            self?.movies.append(contentsOf: topLevelobject.results)
+                            self?.saveToRecentSearches(query: query ?? "", moviesToSave: topLevelobject.results)
+                            self?.movieTableview.reloadData()
+                            self?.hidePaginationIndicator()
+                        } else {
+                            self?.hasLoaded = true
+                        }
+                    } else {
                         self?.saveToRecentSearches(query: query ?? "", moviesToSave: topLevelobject.results)
+                        self?.movies = topLevelobject.results
                         self?.movieTableview.reloadData()
                         self?.hidePaginationIndicator()
-                    } else {
+                    }
+
+                    if self?.movies.count == topLevelobject.total_results {
                         self?.hasLoaded = true
+                    } else {
+                        self?.hasLoaded = false
                     }
-                } else {
-                    self?.saveToRecentSearches(query: query ?? "", moviesToSave: topLevelobject.results)
-                    self?.movies = topLevelobject.results
-                    self?.movieTableview.reloadData()
-                    self?.hidePaginationIndicator()
-                }
 
-                if self?.movies.count == topLevelobject.total_results {
-                    self?.hasLoaded = true
-                } else {
-                    self?.hasLoaded = false
-                }
-
-                if self?.movies.count == 0 && !(self?.isLoading ?? false) {
-                    if let searchTextCount = self?.movieSearchBar.text?.count {
-                        if searchTextCount > 0 {
-                            self?.showRecentSearchResult()
-                        } else {
-                            self?.showRecentSearchResult()
+                    if self?.movies.count == 0 && !(self?.isLoading ?? false) {
+                        if let searchTextCount = self?.movieSearchBar.text?.count {
+                            if searchTextCount > 0 {
+                                self?.showRecentSearchResult()
+                            } else {
+                                self?.showRecentSearchResult()
+                            }
                         }
+                    } else {
+                        //hide empty view
                     }
-                } else {
-                    //hide empty view
                 }
-            }
 
-            }, failure:  { [weak self] errorString in
-                self?.showRecentSearchResult()
-        })
+                }, failure:  { [weak self] errorString in
+                    self?.showRecentSearchResult()
+            })
+        }
     }
 
     private func showRecentSearchResult() {
@@ -213,8 +219,11 @@ extension MovieViewController : UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-        print("did tap for connection. trying to connect")
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let vc = storyboard.instantiateViewController(withIdentifier: "MovieDetailsViewController") as? MovieDetailsViewController {
+            vc.selectedMovie = movies[indexPath.row]
+            self.present(vc, animated: true)
+        }
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

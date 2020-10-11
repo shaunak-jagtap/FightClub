@@ -21,6 +21,7 @@
 		3DFC69ED2533390900D82102 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFC69EB2533390900D82102 /* MovieTableViewCell.swift */; };
 		3DFC69EE2533390900D82102 /* MovieTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DFC69EC2533390900D82102 /* MovieTableViewCell.xib */; };
 		3DFC69F025338FC000D82102 /* UserDefaultsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFC69EF25338FC000D82102 /* UserDefaultsExtensions.swift */; };
+		3DFC69F225339E5900D82102 /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFC69F125339E5900D82102 /* MovieDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		3DFC69EB2533390900D82102 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 		3DFC69EC2533390900D82102 /* MovieTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieTableViewCell.xib; sourceTree = "<group>"; };
 		3DFC69EF25338FC000D82102 /* UserDefaultsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtensions.swift; sourceTree = "<group>"; };
+		3DFC69F125339E5900D82102 /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				3D56236C2530F71B0081B4B8 /* MovieViewController.swift */,
+				3DFC69F125339E5900D82102 /* MovieDetailsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -240,6 +243,7 @@
 				3DFC69F025338FC000D82102 /* UserDefaultsExtensions.swift in Sources */,
 				3D5623472530E87E0081B4B8 /* AppDelegate.swift in Sources */,
 				3D56236D2530F71B0081B4B8 /* MovieViewController.swift in Sources */,
+				3DFC69F225339E5900D82102 /* MovieDetailsViewController.swift in Sources */,
 				3D56236B2530F1E20081B4B8 /* NetworkManager.swift in Sources */,
 				3D49033525332B960066395C /* ImageLoader.swift in Sources */,
 				3D5623492530E87E0081B4B8 /* SceneDelegate.swift in Sources */,

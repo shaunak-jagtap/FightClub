@@ -21,6 +21,13 @@ class MovieTableViewCell: UITableViewCell {
         styleCell()
     }
 
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = .clear
+        self.selectedBackgroundView = backgroundView
+    }
+
     func styleCell()  {
         let darkBlueColor = UIColor.init(red: 45/255, green:50/255, blue: 69/255, alpha: 1)
 
