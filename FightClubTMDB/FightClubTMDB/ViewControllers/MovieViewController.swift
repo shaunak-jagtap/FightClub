@@ -13,18 +13,26 @@ class MovieViewController: UIViewController {
     // MARK: - Properties
     var movies: [Movie] = []
     let imageLoader = ImageLoader()
-    
+    private let paginateAt = 1
+    private var page = 1
+    private var pageLength = 5
+    private let minimalSectionHeaderHeight: CGFloat = 44.0
+    private var isLoading = false
+    private var hasLoaded = false
+
+    @IBOutlet weak var movieSearchBar: UISearchBar!
     @IBOutlet weak var movieTableview: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        cosmeticUI()
-        fetchMovies()
-        // Do any additional setup after loading the view.
+
+        fetchMovies(query: "")
     }
 
     private func setupUI() {
+        movieSearchBar.delegate = self
+        cosmeticUI()
         let nib = UINib(nibName: "MovieTableViewCell", bundle: nil)
         movieTableview.register(nib, forCellReuseIdentifier: "MovieTableViewCell")
     }
@@ -39,8 +47,9 @@ class MovieViewController: UIViewController {
      self.view.layer.insertSublayer(gradient, at: 0)
     }
 
-    private func fetchMovies() {
-        MovieManager.fetchMovies(searchTerm: "dilwale", success: { result in
+    private func fetchMovies(query: String? = nil) {
+        isLoading = true
+        MovieManager.fetchMovies(searchTerm: query ?? "", success: { result in
             if let movies = result as? [Movie], movies.count > 0 {
                 self.movies = movies
                 self.movieTableview.reloadData()
@@ -50,7 +59,7 @@ class MovieViewController: UIViewController {
         })
     }
 
-    func fillCellData(cell: MovieTableViewCell, indexPath :IndexPath) {
+    private func fillCellData(cell: MovieTableViewCell, indexPath :IndexPath) {
         let movie = movies[indexPath.row]
         cell.movieName?.text = movie.title
         cell.releaseDate?.text = movie.release_date
@@ -61,6 +70,39 @@ class MovieViewController: UIViewController {
             }
         }
     }
+
+    @objc private func performSearch() {
+        page = 1
+        movies.removeAll()
+        movieTableview.reloadData()
+        hidePaginationIndicator()
+        fetchMovies(query: self.movieSearchBar.text)
+    }
+
+    private func hidePaginationIndicator() {
+        movieTableview.tableFooterView = nil
+        movieTableview.tableFooterView?.isHidden = true
+    }
+}
+
+// MARK: - UISearchBarDelegate
+extension MovieViewController: UISearchBarDelegate {
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.performSearch), object: nil)
+        self.perform(#selector(self.performSearch), with: nil, afterDelay: 0.5)
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        movieTableview.reloadData()
+        hidePaginationIndicator()
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        performSearch()
+    }
+
 }
 
 extension MovieViewController : UITableViewDelegate, UITableViewDataSource {

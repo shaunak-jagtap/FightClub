@@ -15,8 +15,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search movie.." translatesAutoresizingMaskIntoConstraints="NO" id="xBb-Fv-nXL">
+                                <rect key="frame" x="0.0" y="44" width="414" height="56"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="barTintColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="190" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZKd-u2-Y9E">
-                                <rect key="frame" x="20" y="64" width="374" height="778"/>
+                                <rect key="frame" x="20" y="100" width="374" height="742"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
@@ -27,14 +33,18 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="xBb-Fv-nXL" firstAttribute="leading" secondItem="9Kj-LE-i8S" secondAttribute="leading" id="9yg-1B-VOC"/>
+                            <constraint firstItem="xBb-Fv-nXL" firstAttribute="trailing" secondItem="9Kj-LE-i8S" secondAttribute="trailing" id="QiM-fq-U48"/>
                             <constraint firstItem="9Kj-LE-i8S" firstAttribute="bottom" secondItem="ZKd-u2-Y9E" secondAttribute="bottom" constant="20" id="Qje-T7-iBU"/>
+                            <constraint firstItem="xBb-Fv-nXL" firstAttribute="top" secondItem="9Kj-LE-i8S" secondAttribute="top" id="WXk-2r-qFI"/>
                             <constraint firstItem="ZKd-u2-Y9E" firstAttribute="leading" secondItem="9Kj-LE-i8S" secondAttribute="leading" constant="20" id="YXH-oK-lBS"/>
-                            <constraint firstItem="ZKd-u2-Y9E" firstAttribute="top" secondItem="9Kj-LE-i8S" secondAttribute="top" constant="20" id="fK9-lU-4iV"/>
                             <constraint firstItem="9Kj-LE-i8S" firstAttribute="trailing" secondItem="ZKd-u2-Y9E" secondAttribute="trailing" constant="20" id="kb6-o8-gAG"/>
+                            <constraint firstItem="ZKd-u2-Y9E" firstAttribute="top" secondItem="xBb-Fv-nXL" secondAttribute="bottom" id="p7Y-Ib-dZa"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9Kj-LE-i8S"/>
                     </view>
                     <connections>
+                        <outlet property="movieSearchBar" destination="xBb-Fv-nXL" id="UCk-MU-tay"/>
                         <outlet property="movieTableview" destination="ZKd-u2-Y9E" id="BTA-GA-TIa"/>
                     </connections>
                 </viewController>
