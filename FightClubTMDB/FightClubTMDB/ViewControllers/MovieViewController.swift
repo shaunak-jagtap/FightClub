@@ -31,11 +31,12 @@ class MovieViewController: UIViewController {
     }
 
     private func setupUI() {
+        cosmeticUI()
         movieSearchBar.delegate = self
         recentSearchesLabel.isHidden = true
-        cosmeticUI()
         let nib = UINib(nibName: "MovieTableViewCell", bundle: nil)
         movieTableview.register(nib, forCellReuseIdentifier: "MovieTableViewCell")
+        self.showRecentSearchResult()
     }
 
     private func cosmeticUI() {
@@ -95,6 +96,10 @@ class MovieViewController: UIViewController {
     }
 
     private func showRecentSearchResult() {
+        if let storedMovies = UserDefaults.standard.object([String : [Movie]].self, with: "recentSearches") {
+            MovieManager.recentSearches = storedMovies
+        }
+
         if !MovieManager.recentSearches.isEmpty {
             self.recentSearchesLabel.isHidden = false
             self.recentSearchesLabel.text = "Recent search results for: \(MovieManager.recentSearches.first?.key ?? "")"
@@ -111,6 +116,7 @@ class MovieViewController: UIViewController {
 
                 if MovieManager.recentSearches.first?.key != query {
                     MovieManager.recentSearches.removeAll()
+                    UserDefaults.standard.removeObject(forKey: "recentSearches")
                 }
 
                 var savedMovies = MovieManager.recentSearches.first?.value
@@ -125,6 +131,7 @@ class MovieViewController: UIViewController {
             }
         }
 
+        UserDefaults.standard.set(object: MovieManager.recentSearches, forKey: "recentSearches")
     }
 
     private func fillCellData(cell: MovieTableViewCell, indexPath :IndexPath) {
