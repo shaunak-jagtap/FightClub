@@ -31,7 +31,6 @@ class MovieViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        fetchMovies(query: "")
     }
 
     private func setupUI() {
