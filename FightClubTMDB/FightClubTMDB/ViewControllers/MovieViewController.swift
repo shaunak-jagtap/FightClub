@@ -214,13 +214,13 @@ class MovieViewController: BaseViewController {
     }
 
     private func showEmptyLabel() {
-        let noDataLabel: UILabel  = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+        let noDataLabel: UILabel  = UILabel(frame: CGRect(x: 0, y: 0, width: movieTableview.bounds.size.width, height: movieTableview.bounds.size.height))
         noDataLabel.numberOfLines = 0
         noDataLabel.font          = UIFont.systemFont(ofSize: 22)
         noDataLabel.text          = setForSimilars ?  Constants.strings.noSimilarMovies : Constants.strings.noData
         noDataLabel.textColor     = .white
         noDataLabel.textAlignment = .center
-        tableView.backgroundView  = noDataLabel
+        movieTableview.backgroundView  = noDataLabel
     }
 }
 
