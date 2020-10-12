@@ -155,6 +155,8 @@ class MovieViewController: UIViewController {
                 }
 
                 UserDefaults.standard.set(object: storedMovies, forKey: "recentSearches")
+            } else {
+                UserDefaults.standard.set(object: [query: [moviesToSave[0]]], forKey: "recentSearches")
             }
         }
 
