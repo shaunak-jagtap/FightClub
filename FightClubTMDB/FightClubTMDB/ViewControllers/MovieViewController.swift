@@ -12,8 +12,9 @@ class MovieViewController: UIViewController {
 
     // MARK: - Properties
     var movies: [Movie] = []
-    let imageLoader = ImageLoader()
     var setForSimilars = false
+    
+    private let imageLoader = ImageLoader()
     private let paginateAt = 1
     private var page = 1
     private var pageLength = 5
@@ -120,41 +121,43 @@ class MovieViewController: UIViewController {
 
     private func showRecentSearchResult() {
         if let storedMovies = UserDefaults.standard.object([String : [Movie]].self, with: "recentSearches") {
-            MovieManager.recentSearches = storedMovies
-        }
-
-        if !MovieManager.recentSearches.isEmpty {
-            self.recentSearchesLabel.isHidden = false
-            self.recentSearchesLabel.text = "Recent search results for: \(MovieManager.recentSearches.first?.key ?? "")"
-            if let savedMovies = MovieManager.recentSearches.first?.value {
-                self.movies = savedMovies
-                self.movieTableview.reloadData()
+            if !storedMovies.isEmpty {
+                self.recentSearchesLabel.isHidden = false
+                self.recentSearchesLabel.text = "Recent search results for: \(storedMovies.first?.key ?? "")"
+                if let savedMovies = storedMovies.first?.value {
+                    self.movies = savedMovies
+                    self.movieTableview.reloadData()
+                }
             }
         }
     }
 
     private func saveToRecentSearches(query: String, moviesToSave: [Movie]) {
         for index in 0...4 {
-            if MovieManager.recentSearches[query]?.count ?? 0 > 0 {
+            if let sMovies = UserDefaults.standard.object([String : [Movie]].self, with: "recentSearches") {
+                var storedMovies = sMovies
+                if storedMovies.count > 0 {
 
-                if MovieManager.recentSearches.first?.key != query {
-                    MovieManager.recentSearches.removeAll()
-                    UserDefaults.standard.removeObject(forKey: "recentSearches")
-                }
-
-                var savedMovies = MovieManager.recentSearches.first?.value
-                if savedMovies?.count ?? 0 < 5, moviesToSave.count > index {
-                    savedMovies?.append(moviesToSave[index])
-                    if let updatedMovies = savedMovies {
-                        MovieManager.recentSearches[query] = updatedMovies
+                    if storedMovies.first?.key != query {
+                        storedMovies.removeAll()
+                        UserDefaults.standard.removeObject(forKey: "recentSearches")
                     }
+
+                    var savedMovies = storedMovies.first?.value
+                    if savedMovies?.count ?? 0 < 5, moviesToSave.count > index {
+                        savedMovies?.append(moviesToSave[index])
+                        if let updatedMovies = savedMovies {
+                            storedMovies[query] = updatedMovies
+                        }
+                    }
+                } else {
+                    storedMovies[query] = [moviesToSave[0]]
                 }
-            } else {
-                MovieManager.recentSearches[query] = [moviesToSave[0]]
+
+                UserDefaults.standard.set(object: storedMovies, forKey: "recentSearches")
             }
         }
 
-        UserDefaults.standard.set(object: MovieManager.recentSearches, forKey: "recentSearches")
     }
 
     private func fillCellData(cell: MovieTableViewCell, indexPath :IndexPath) {
@@ -187,6 +190,7 @@ class MovieViewController: UIViewController {
         if indexPath.section ==  0, lastRowIndex != 0, indexPath.row == lastRowIndex {
             let spinner = UIActivityIndicatorView(style: .medium)
             spinner.startAnimating()
+            spinner.tintColor = .white
             spinner.frame = CGRect(x: 0, y: 0, width: movieTableview.bounds.width, height: minimalSectionHeaderHeight)
 
             movieTableview.tableFooterView = spinner

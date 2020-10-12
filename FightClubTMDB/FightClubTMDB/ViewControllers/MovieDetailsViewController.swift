@@ -19,8 +19,8 @@ class MovieDetailsViewController: UIViewController {
     @IBOutlet weak var creditsButton: UIButton!
     @IBOutlet weak var movieImageView: UIImageView!
     @IBOutlet weak var movieBlurImageView: UIImageView!
+    @IBOutlet weak var movieDetailsLTextView: UITextView!
 
-    @IBOutlet weak var movieDetailsLabel: UILabel!
     @IBOutlet weak var movieTitle: UILabel!
     @IBOutlet weak var movieDate: UILabel!
     @IBOutlet weak var movieGenre: UILabel!
@@ -35,7 +35,7 @@ class MovieDetailsViewController: UIViewController {
     private func setupUI() {
         cosmeticUI()
         movieTitle.text = selectedMovie?.title
-        movieDetailsLabel.text = selectedMovie?.overview
+        movieDetailsLTextView.text = selectedMovie?.overview
 //        movieGenre.text = selectedMovie?.genre_ids
         movieGenre.text = "Popularity: \(selectedMovie?.popularity ?? 0)"
         actorsLabel.text = "Vote Average: \(selectedMovie?.vote_average ?? 0)"

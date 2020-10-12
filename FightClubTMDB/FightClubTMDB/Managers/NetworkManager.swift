@@ -56,43 +56,4 @@ class NetworkManger {
 
         task.resume()
     }
-
-    func getImageData(params:[String:Any], stringURL:String, success:@escaping(Any) -> Void, failure:@escaping(String) -> Void)
-    {
-        if let url = URL(string: stringURL)
-        {
-            let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
-                if let smResponse = response as? HTTPURLResponse, smResponse.statusCode == 200
-                {
-                    do {
-                        if let data = data
-                        {
-                            DispatchQueue.main.async {
-                                success(data)
-                            }
-                        }
-                        else
-                        {
-                            DispatchQueue.main.async {
-                                failure(Constants.errors.networkError)
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    DispatchQueue.main.async {
-                        failure(Constants.errors.networkError)
-                    }
-                }
-            }
-
-            task.resume()
-        }
-        else
-        {
-            failure(Constants.errors.networkError);
-        }
-    }
-
 }

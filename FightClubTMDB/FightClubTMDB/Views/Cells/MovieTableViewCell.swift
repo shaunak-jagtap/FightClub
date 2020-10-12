@@ -29,13 +29,11 @@ class MovieTableViewCell: UITableViewCell {
     }
 
     func styleCell()  {
-        let darkBlueColor = UIColor.init(red: 45/255, green:50/255, blue: 69/255, alpha: 1)
-
         let gradient = CAGradientLayer()
         gradient.frame = bgView.bounds
         gradient.startPoint = CGPoint.init(x: 0, y: 0)
         gradient.endPoint = CGPoint.init(x: 1, y: 1)
-        gradient.colors = [darkBlueColor.cgColor, UIColor.black.cgColor]
+        gradient.colors = [Constants.appColors.darkBlueColor.cgColor, UIColor.black.cgColor]
         gradient.cornerRadius = 15
 
         bgView.layer.insertSublayer(gradient, at: 0)

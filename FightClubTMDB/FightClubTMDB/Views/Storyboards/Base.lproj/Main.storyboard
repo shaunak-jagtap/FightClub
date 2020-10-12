@@ -156,77 +156,78 @@
                                     <constraint firstAttribute="height" constant="300" id="teJ-pJ-2Tj"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ijk-Tw-YFk">
-                                <rect key="frame" x="10" y="352" width="394" height="208"/>
-                                <string key="text">An insomniac office worker and a devil-may-care soapmaker form an underground fight club that evolves into something much, much more. A nameless first person narrator (Edward Norton) attends support groups in attempt to subdue his emotional state and relieve his insomniac state.</string>
-                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMu-Ts-dmz">
-                                <rect key="frame" x="20" y="792" width="374" height="50"/>
-                                <color key="backgroundColor" red="0.94265282149999996" green="0.13536059859999999" blue="0.35900035499999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="sQX-BA-zEm"/>
-                                </constraints>
-                                <state key="normal" title="Reviews">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="reviewsTapped:" destination="uKu-wR-tqO" eventType="touchUpInside" id="uxu-ti-jVx"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TT6-YD-Cfk">
-                                <rect key="frame" x="20" y="722" width="374" height="50"/>
-                                <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="H9H-6s-0FE"/>
-                                </constraints>
-                                <state key="normal" title="Similar Movies">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="similarMoviesTapped:" destination="uKu-wR-tqO" eventType="touchUpInside" id="F1u-JL-rSp"/>
-                                </connections>
-                            </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kW7-9G-l23">
-                                <rect key="frame" x="20" y="652" width="374" height="50"/>
-                                <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="OcD-Vs-dg2"/>
-                                </constraints>
-                                <state key="normal" title="Credits">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="creditsTapped:" destination="uKu-wR-tqO" eventType="touchUpInside" id="mzR-u2-lrY"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="It6-Y4-s2e">
+                                <rect key="frame" x="20" y="364" width="374" height="478"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="white" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6GA-aN-es3">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="268"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="dxl-xb-brp">
+                                        <rect key="frame" x="0.0" y="288" width="374" height="190"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kW7-9G-l23">
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="50"/>
+                                                <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="OcD-Vs-dg2"/>
+                                                </constraints>
+                                                <state key="normal" title="Credits">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="creditsTapped:" destination="uKu-wR-tqO" eventType="touchUpInside" id="mzR-u2-lrY"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TT6-YD-Cfk">
+                                                <rect key="frame" x="0.0" y="70" width="374" height="50"/>
+                                                <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="H9H-6s-0FE"/>
+                                                </constraints>
+                                                <state key="normal" title="Similar Movies">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="similarMoviesTapped:" destination="uKu-wR-tqO" eventType="touchUpInside" id="F1u-JL-rSp"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMu-Ts-dmz">
+                                                <rect key="frame" x="0.0" y="140" width="374" height="50"/>
+                                                <color key="backgroundColor" red="0.94265282149999996" green="0.13536059859999999" blue="0.35900035499999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="sQX-BA-zEm"/>
+                                                </constraints>
+                                                <state key="normal" title="Reviews">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="reviewsTapped:" destination="uKu-wR-tqO" eventType="touchUpInside" id="uxu-ti-jVx"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="tNy-5A-iFV" firstAttribute="leading" secondItem="qHz-qc-6fX" secondAttribute="leading" id="0ck-FU-M9c"/>
-                            <constraint firstItem="qHz-qc-6fX" firstAttribute="trailing" secondItem="TT6-YD-Cfk" secondAttribute="trailing" constant="20" id="1ww-X7-zkS"/>
                             <constraint firstItem="oAa-8K-7zo" firstAttribute="leading" secondItem="qHz-qc-6fX" secondAttribute="leading" id="2xk-Ps-fhr"/>
                             <constraint firstItem="oAa-8K-7zo" firstAttribute="top" secondItem="qHz-qc-6fX" secondAttribute="top" id="3LQ-1P-TEa"/>
-                            <constraint firstAttribute="trailing" secondItem="ijk-Tw-YFk" secondAttribute="trailing" constant="10" id="7Fu-4M-9gb"/>
-                            <constraint firstItem="ijk-Tw-YFk" firstAttribute="leading" secondItem="oAa-8K-7zo" secondAttribute="leading" constant="10" id="HZ0-20-k7o"/>
+                            <constraint firstItem="It6-Y4-s2e" firstAttribute="leading" secondItem="qHz-qc-6fX" secondAttribute="leading" constant="20" id="8dN-f0-WQ9"/>
                             <constraint firstItem="qHz-qc-6fX" firstAttribute="trailing" secondItem="oAa-8K-7zo" secondAttribute="trailing" id="Jla-Fd-wMk"/>
-                            <constraint firstItem="TT6-YD-Cfk" firstAttribute="top" secondItem="kW7-9G-l23" secondAttribute="bottom" constant="20" id="LkJ-8x-dRa"/>
-                            <constraint firstItem="qHz-qc-6fX" firstAttribute="trailing" secondItem="kW7-9G-l23" secondAttribute="trailing" constant="20" id="PjH-hR-G7c"/>
                             <constraint firstItem="qHz-qc-6fX" firstAttribute="trailing" secondItem="e99-DL-4Ha" secondAttribute="trailing" id="RhW-11-FV7"/>
-                            <constraint firstItem="TT6-YD-Cfk" firstAttribute="leading" secondItem="qHz-qc-6fX" secondAttribute="leading" constant="20" id="b6q-Qa-HCr"/>
+                            <constraint firstItem="It6-Y4-s2e" firstAttribute="top" secondItem="e99-DL-4Ha" secondAttribute="bottom" constant="20" id="XNO-Ub-KYU"/>
                             <constraint firstItem="tNy-5A-iFV" firstAttribute="top" secondItem="qHz-qc-6fX" secondAttribute="top" id="ch8-ef-g92"/>
-                            <constraint firstItem="qHz-qc-6fX" firstAttribute="trailing" secondItem="eMu-Ts-dmz" secondAttribute="trailing" constant="20" id="dca-Nb-7h5"/>
-                            <constraint firstItem="ijk-Tw-YFk" firstAttribute="top" secondItem="e99-DL-4Ha" secondAttribute="bottom" constant="8" id="eng-wb-q08"/>
-                            <constraint firstItem="kW7-9G-l23" firstAttribute="top" secondItem="ijk-Tw-YFk" secondAttribute="bottom" constant="92" id="iEL-kC-tpF"/>
-                            <constraint firstItem="eMu-Ts-dmz" firstAttribute="leading" secondItem="qHz-qc-6fX" secondAttribute="leading" constant="20" id="nMs-Hc-cpf"/>
-                            <constraint firstItem="kW7-9G-l23" firstAttribute="leading" secondItem="qHz-qc-6fX" secondAttribute="leading" constant="20" id="qa6-Vf-p7y"/>
-                            <constraint firstItem="qHz-qc-6fX" firstAttribute="bottom" secondItem="eMu-Ts-dmz" secondAttribute="bottom" constant="20" id="sVM-Vg-X1s"/>
+                            <constraint firstItem="qHz-qc-6fX" firstAttribute="bottom" secondItem="It6-Y4-s2e" secondAttribute="bottom" constant="20" id="rp9-9h-U9n"/>
+                            <constraint firstAttribute="trailing" secondItem="It6-Y4-s2e" secondAttribute="trailing" constant="20" id="uUE-Hl-Epg"/>
                             <constraint firstItem="qHz-qc-6fX" firstAttribute="trailing" secondItem="tNy-5A-iFV" secondAttribute="trailing" id="w9V-w6-sGh"/>
                             <constraint firstItem="e99-DL-4Ha" firstAttribute="top" secondItem="qHz-qc-6fX" secondAttribute="top" id="xbG-nb-PQV"/>
                             <constraint firstItem="e99-DL-4Ha" firstAttribute="leading" secondItem="qHz-qc-6fX" secondAttribute="leading" id="xiV-ZF-sLw"/>
-                            <constraint firstItem="eMu-Ts-dmz" firstAttribute="top" secondItem="TT6-YD-Cfk" secondAttribute="bottom" constant="20" id="zzb-kr-oY9"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="qHz-qc-6fX"/>
                     </view>
@@ -236,7 +237,7 @@
                         <outlet property="movieBlurImageView" destination="e99-DL-4Ha" id="ebJ-x2-jaN"/>
                         <outlet property="movieBudget" destination="mls-a9-RTU" id="NRx-RJ-i5B"/>
                         <outlet property="movieDate" destination="mHW-sa-Tve" id="qIo-q6-xEH"/>
-                        <outlet property="movieDetailsLabel" destination="ijk-Tw-YFk" id="bew-w0-cek"/>
+                        <outlet property="movieDetailsLTextView" destination="6GA-aN-es3" id="LRp-bI-V2I"/>
                         <outlet property="movieGenre" destination="xR8-4H-0WQ" id="9TH-TN-Nx5"/>
                         <outlet property="movieImageView" destination="eQa-rQ-Qgx" id="iTd-Lj-eaD"/>
                         <outlet property="movieTitle" destination="ZCv-te-tlO" id="taT-zo-cGh"/>
