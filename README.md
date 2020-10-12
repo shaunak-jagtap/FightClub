@@ -16,6 +16,8 @@ Features:
  *  All images are cached.
  *  Endless scrolling.
  
-Todo:
+ Todo:
 
  * Credits, Reviews, Account management, users, sessions, favourite lists.
+
+Note: check atomic commits on the development branch.
