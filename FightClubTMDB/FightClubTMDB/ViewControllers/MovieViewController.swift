@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieViewController: UIViewController {
+class MovieViewController: BaseViewController {
 
     // MARK: - Properties
     var movies: [Movie] = []
@@ -41,6 +41,10 @@ class MovieViewController: UIViewController {
         movieTableview.register(nib, forCellReuseIdentifier: "MovieTableViewCell")
         self.showRecentSearchResult()
         movieTableview.keyboardDismissMode = .onDrag
+        if setForSimilars {
+            movieSearchBar.isHidden = true
+            recentSearchesLabel.isHidden = true
+        }
     }
 
     private func cosmeticUI() {
@@ -54,17 +58,20 @@ class MovieViewController: UIViewController {
     }
 
     private func fetchMovies(query: String? = nil) {
-        if setForSimilars {
-            movieSearchBar.isHidden = true
-            recentSearchesLabel.isHidden = true
-        } else {
-            isLoading = true
-            MovieManager.fetchMovies(searchTerm: query ?? "", page: page, success: { [weak self] result in
-                self?.fetchMovieSuccess(query: query ?? "", result: result)
-                }, failure:  { [weak self] errorString in
+        super.showLoading()
+        isLoading = true
+        MovieManager.fetchMovies(searchTerm: query ?? "", page: page, success: { [weak self] result in
+            self?.hideLoading()
+            self?.fetchMovieSuccess(query: query ?? "", result: result)
+
+            }, failure:  { [weak self] errorString in
+                self?.hideLoading()
+                if errorString.compare(Constants.errors.noInternet) == ComparisonResult.orderedSame {
+                    self?.showAlert(with: Constants.errors.noInternet, and: "")
+                }else{
                     self?.showRecentSearchResult()
-            })
-        }
+                }
+        })
     }
 
     private func fallbackSearch(query: String) {
@@ -77,6 +84,7 @@ class MovieViewController: UIViewController {
                 self?.fallbackSearchStage += 1
                 self?.fetchMovieSuccess(query: self?.fallbackQuery ?? "", result: result)
                 }, failure:  { [weak self] errorString in
+                    self?.movieTableview.backgroundView = nil
                     self?.recentSearchesLabel.isHidden = false
                     self?.recentSearchesLabel.text = Constants.errors.noResults
             })
@@ -204,6 +212,16 @@ class MovieViewController: UIViewController {
     private func getSearchText() -> String? {
         return self.movieSearchBar.text != "" ? self.movieSearchBar.text : nil
     }
+
+    private func showEmptyLabel() {
+        let noDataLabel: UILabel  = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+        noDataLabel.numberOfLines = 0
+        noDataLabel.font          = UIFont.systemFont(ofSize: 22)
+        noDataLabel.text          = setForSimilars ?  Constants.strings.noSimilarMovies : Constants.strings.noData
+        noDataLabel.textColor     = .white
+        noDataLabel.textAlignment = .center
+        tableView.backgroundView  = noDataLabel
+    }
 }
 
 // MARK: - UISearchBarDelegate
@@ -264,20 +282,19 @@ extension MovieViewController : UITableViewDelegate, UITableViewDataSource {
         if !setForSimilars, !hasLoaded, !isLoading, indexPath.row == movies.count - paginateAt {
             page += 1
             fetchMovies(query: getSearchText())
+        } else {
+            super.hideLoading()
         }
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
         if movies.count > 0 {
             tableView.backgroundView = nil
-        } else if !isLoading, movieSearchBar.searchTextField.text?.isEmpty ?? false {
-            let noDataLabel: UILabel  = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
-            noDataLabel.numberOfLines = 0
-            noDataLabel.font          = UIFont.systemFont(ofSize: 22)
-            noDataLabel.text          = Constants.strings.noData
-            noDataLabel.textColor     = .white
-            noDataLabel.textAlignment = .center
-            tableView.backgroundView  = noDataLabel
+        } else if recentSearchesLabel.isHidden, movieSearchBar.searchTextField.text?.isEmpty ?? false {
+            showEmptyLabel()
+        } else if !recentSearchesLabel.isHidden, movieSearchBar.searchTextField.text?.isEmpty ?? false {
+            recentSearchesLabel.isHidden = true
+            showEmptyLabel()
         }
         return 1
     }

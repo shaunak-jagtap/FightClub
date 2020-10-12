@@ -41,6 +41,7 @@ struct Constants
         static let language = "language"
         static let posterEndPoint = "https://image.tmdb.org/t/p/w500"
         static let noData = "Please type something to search.."
+        static let noSimilarMovies = "No similar movies found :("
     }
 
     //Error contsants
@@ -49,6 +50,7 @@ struct Constants
         static let networkError = "something went wrong"
         static let errorLoadingImage = "Failed loading image"
         static let noResults = "No results found, try searching something else!"
+        static let noInternet = "Please try Again.!\nNo Internet."
     }
 
 }
