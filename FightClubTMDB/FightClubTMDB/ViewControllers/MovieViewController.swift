@@ -77,8 +77,8 @@ class MovieViewController: UIViewController {
                 self?.fallbackSearchStage += 1
                 self?.fetchMovieSuccess(query: self?.fallbackQuery ?? "", result: result)
                 }, failure:  { [weak self] errorString in
-                    self?.recentSearchesLabel.text = ""
-                    self?.showRecentSearchResult()
+                    self?.recentSearchesLabel.isHidden = false
+                    self?.recentSearchesLabel.text = Constants.errors.noResults
             })
         }
     }
@@ -113,7 +113,7 @@ class MovieViewController: UIViewController {
                 self.showRecentSearchResult()
                 self.fallbackSearch(query: query)
             } else {
-                //hide empty view
+                self.movieTableview.backgroundView = nil
             }
         } else {
             self.fallbackSearch(query: query)
@@ -270,7 +270,7 @@ extension MovieViewController : UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         if movies.count > 0 {
             tableView.backgroundView = nil
-        } else {
+        } else if !isLoading, movieSearchBar.searchTextField.text?.isEmpty ?? false {
             let noDataLabel: UILabel  = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
             noDataLabel.numberOfLines = 0
             noDataLabel.font          = UIFont.systemFont(ofSize: 22)

@@ -48,6 +48,7 @@ struct Constants
     {
         static let networkError = "something went wrong"
         static let errorLoadingImage = "Failed loading image"
+        static let noResults = "No results found, try searching something else!"
     }
 
 }
