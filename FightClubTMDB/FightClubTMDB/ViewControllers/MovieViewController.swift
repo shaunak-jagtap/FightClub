@@ -20,6 +20,8 @@ class MovieViewController: UIViewController {
     private let minimalSectionHeaderHeight: CGFloat = 44.0
     private var isLoading = false
     private var hasLoaded = false
+    private var fallbackSearchStage = 0
+    private var fallbackQuery = ""
 
     @IBOutlet weak var recentSearchesLabel: UILabel!
     @IBOutlet weak var movieSearchBar: UISearchBar!
@@ -57,47 +59,62 @@ class MovieViewController: UIViewController {
         } else {
             isLoading = true
             MovieManager.fetchMovies(searchTerm: query ?? "", page: page, success: { [weak self] result in
-                self?.recentSearchesLabel.isHidden = true
-                if let topLevelobject = result as? TopLevelobject, topLevelobject.results.count > 0 {
-                    self?.isLoading = false
-                    if self?.page ?? 0 > 1 {
-                        if self?.movies.count ?? 0 > 0 {
-                            self?.movies.append(contentsOf: topLevelobject.results)
-                            self?.saveToRecentSearches(query: query ?? "", moviesToSave: topLevelobject.results)
-                            self?.movieTableview.reloadData()
-                            self?.hidePaginationIndicator()
-                        } else {
-                            self?.hasLoaded = true
-                        }
-                    } else {
-                        self?.saveToRecentSearches(query: query ?? "", moviesToSave: topLevelobject.results)
-                        self?.movies = topLevelobject.results
-                        self?.movieTableview.reloadData()
-                        self?.hidePaginationIndicator()
-                    }
-
-                    if self?.movies.count == topLevelobject.total_results {
-                        self?.hasLoaded = true
-                    } else {
-                        self?.hasLoaded = false
-                    }
-
-                    if self?.movies.count == 0 && !(self?.isLoading ?? false) {
-                        if let searchTextCount = self?.movieSearchBar.text?.count {
-                            if searchTextCount > 0 {
-                                self?.showRecentSearchResult()
-                            } else {
-                                self?.showRecentSearchResult()
-                            }
-                        }
-                    } else {
-                        //hide empty view
-                    }
-                }
-
+                self?.fetchMovieSuccess(query: query ?? "", result: result)
                 }, failure:  { [weak self] errorString in
                     self?.showRecentSearchResult()
             })
+        }
+    }
+
+    private func fallbackSearch(query: String) {
+        if fallbackSearchStage < 4 {
+            var fallbackQueryArray = query.components(separatedBy: " ")
+            fallbackQueryArray.removeFirst()
+            fallbackQuery = fallbackQueryArray.joined(separator:" ")
+            isLoading = true
+            MovieManager.fetchMovies(searchTerm: fallbackQuery, page: page, success: { [weak self] result in
+                self?.fallbackSearchStage += 1
+                self?.fetchMovieSuccess(query: self?.fallbackQuery ?? "", result: result)
+                }, failure:  { [weak self] errorString in
+                    self?.showRecentSearchResult()
+            })
+        }
+    }
+
+    private func fetchMovieSuccess(query: String, result: Any) {
+        self.recentSearchesLabel.isHidden = true
+        if let topLevelobject = result as? TopLevelobject, topLevelobject.results.count > 0 {
+            self.isLoading = false
+            if self.page > 1 {
+                if self.movies.count > 0 {
+                    self.movies.append(contentsOf: topLevelobject.results)
+                    self.saveToRecentSearches(query: query, moviesToSave: topLevelobject.results)
+                    self.movieTableview.reloadData()
+                    self.hidePaginationIndicator()
+                } else {
+                    self.hasLoaded = true
+                }
+            } else {
+                self.saveToRecentSearches(query: query, moviesToSave: topLevelobject.results)
+                self.movies = topLevelobject.results
+                self.movieTableview.reloadData()
+                self.hidePaginationIndicator()
+            }
+
+            if self.movies.count == topLevelobject.total_results {
+                self.hasLoaded = true
+            } else {
+                self.hasLoaded = false
+            }
+
+            if self.movies.count == 0 && !self.isLoading {
+                self.showRecentSearchResult()
+                self.fallbackSearch(query: query)
+            } else {
+                //hide empty view
+            }
+        } else {
+            self.fallbackSearch(query: query)
         }
     }
 
@@ -188,6 +205,9 @@ extension MovieViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.performSearch), object: nil)
         self.perform(#selector(self.performSearch), with: nil, afterDelay: 0.5)
+        if searchText.isEmpty {
+            fallbackSearchStage = 0
+        }
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
