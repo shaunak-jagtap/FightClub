@@ -46,7 +46,6 @@ class MovieDetailsViewController: UIViewController {
                 self?.movieBlurImageView.image = image
             }
         }
-
     }
 
     private func cosmeticUI() {

@@ -41,6 +41,7 @@ class MovieViewController: UIViewController {
         let nib = UINib(nibName: "MovieTableViewCell", bundle: nil)
         movieTableview.register(nib, forCellReuseIdentifier: "MovieTableViewCell")
         self.showRecentSearchResult()
+        movieTableview.keyboardDismissMode = .onDrag
     }
 
     private func cosmeticUI() {
@@ -77,6 +78,7 @@ class MovieViewController: UIViewController {
                 self?.fallbackSearchStage += 1
                 self?.fetchMovieSuccess(query: self?.fallbackQuery ?? "", result: result)
                 }, failure:  { [weak self] errorString in
+                    self?.recentSearchesLabel.text = ""
                     self?.showRecentSearchResult()
             })
         }
@@ -245,10 +247,12 @@ extension MovieViewController : UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let vc = storyboard.instantiateViewController(withIdentifier: "MovieDetailsViewController") as? MovieDetailsViewController {
-            vc.selectedMovie = movies[indexPath.row]
-            self.present(vc, animated: true)
+        if !setForSimilars {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            if let vc = storyboard.instantiateViewController(withIdentifier: "MovieDetailsViewController") as? MovieDetailsViewController {
+                vc.selectedMovie = movies[indexPath.row]
+                self.present(vc, animated: true)
+            }
         }
     }
 
@@ -258,9 +262,24 @@ extension MovieViewController : UITableViewDelegate, UITableViewDataSource {
         }
 
         // Call pagination API when the user is at the 4 row from last for smooth scrolling
-        if !hasLoaded, !isLoading, indexPath.row == movies.count - paginateAt {
+        if !setForSimilars, !hasLoaded, !isLoading, indexPath.row == movies.count - paginateAt {
             page += 1
             fetchMovies(query: getSearchText())
         }
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if movies.count > 0 {
+            tableView.backgroundView = nil
+        } else {
+            let noDataLabel: UILabel  = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel.numberOfLines = 0
+            noDataLabel.font          = UIFont.systemFont(ofSize: 22)
+            noDataLabel.text          = Constants.strings.noData
+            noDataLabel.textColor     = .white
+            noDataLabel.textAlignment = .center
+            tableView.backgroundView  = noDataLabel
+        }
+        return 1
     }
 }

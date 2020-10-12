@@ -40,6 +40,7 @@ struct Constants
         static let movieID = "movie_id"
         static let language = "language"
         static let posterEndPoint = "https://image.tmdb.org/t/p/w500"
+        static let noData = "Please type something to search.."
     }
 
     //Error contsants
